@@ -14,7 +14,7 @@ An R script that uses AI for data analysis on Deezer playlists, like looking for
 
 ![Example of results from duplicates search](./img/DeezerDuplicates.jpg)
 
-## Next improvements
+## Future improvements
 - Full playlist extract, to help with local/cloud backups and migration of playlists to other platforms
 - Overall analysis of playlist, like genres, top artists, tracks lengths, etc.
 
