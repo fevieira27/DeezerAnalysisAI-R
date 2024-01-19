@@ -67,22 +67,24 @@ songs <- get_songs(url)
 # Convert to dataframe
 df_songs <- bind_rows(lapply(songs, as.data.frame.list))
 
-# str(df_songs)
-
+# Selecting only columns that matter
 df_songs_filtered <- df_songs %>% select(id, title, title_short, isrc, duration, rank, type, artist.id, artist.name, artist.type, album.id, album.title, album.type)
 
-print(df_songs_filtered)
+# Review the results
+# print(df_songs_filtered)
 
+# Cleaning artist name to lowercase and changing header name
 dupSongs_df <- data.frame(tolower(df_songs_filtered$artist.name), stringsAsFactors = FALSE)
 colnames(dupSongs_df) <- "artist"
 
+# Cleaning song title to lowercase
 dupSongs_df$title <- tolower(df_songs_filtered$title)
 
-dupSongs_df$duration <- tolower(df_songs_filtered$duration)
+# Adding duration to DF
+dupSongs_df$duration <- df_songs_filtered$duration
 
-dupSongs_df <- rownames_to_column(dupSongs_df, var = "ID")
-
-print(dupSongs_df)
+# Review the results
+# print(dupSongs_df)
 
 ############## Using Levenshtein Similarity
 
@@ -95,8 +97,8 @@ rpairsLeven <- epiWeights(rpairsLeven)
 # Get pairs with a high probability of being duplicates
 duplicatesLeven <- getPairs(rpairsLeven, min.weight=0.79, max.weight=0.99)
 
-# summary(epiClassify(rpairsLeven,0.6))
 # Review the results
+# summary(epiClassify(rpairsLeven,0.6))
 # print(duplicatesLeven)
 
 
@@ -128,7 +130,10 @@ subLV$source <- "Levenshtein"
 # Appending all those into a dataframe, filtering by similarity of artist, title and durantion
 duplicatesTotal <- rbind(subJW, subLV)
 
-# Join back to the original dataset, to get track info and allow validation of duplicates
+# Creating ID column based on row number to original DF
+dupSongs_df <- rownames_to_column(dupSongs_df, var = "ID")
+
+# Join total duplicates found with the original dataset, to get track info and allow validation of duplicates
 finalDupSongs <- merge(duplicatesTotal, dupSongs_df, by.x = "id1", by.y = "ID")
 # colnames(finalDupSongs) <- c("id1","id2","artist_sim","title_sim","duration_sim","is_match","AvgWeight","source","artist_1","title_1","duration_1")
 finalDupSongs <- merge(finalDupSongs, dupSongs_df, by.x = "id2", by.y = "ID")
