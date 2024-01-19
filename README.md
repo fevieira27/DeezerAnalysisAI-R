@@ -18,6 +18,9 @@ An R script that uses AI for data analysis on Deezer playlists, like looking for
 - Full playlist extract, to help with local/cloud backups and migration of playlists to other platforms
 - Overall analysis of playlist, like genres, top artists, tracks lengths, etc.
 
+## Requirements
+A Deezer API key is required, which can be obtained for free on https://developers.deezer.com 
+
 ## Search Hit Counter
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/ImageRecognitionAI-R/r)
 ![GitHub search hit counter](https://img.shields.io/github/search/fevieira27/ImageRecognitionAI-R/ai)
