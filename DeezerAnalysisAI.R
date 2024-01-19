@@ -16,7 +16,7 @@ if (!require("httr")) { install.packages("httr") }
 if (!require("dplyr")) { install.packages("dplyr") }
 if (!require("RecordLinkage")) { install.packages("RecordLinkage") }
 if (!require("tibble")) { install.packages("tibble") }
-if (!require("writexl")) { install.packages("writexl") }
+# if (!require("writexl")) { install.packages("writexl") }
 if (!require("openxlsx")) { install.packages("openxlsx") }
 
 # Replace with your actual playlist ID (it needs to be public!)
@@ -138,15 +138,12 @@ colnames(finalDupSongs) <- c("id2","id1","artist_sim","title_sim","duration_sim"
 finalDupSongs <- finalDupSongs[order(finalDupSongs$id1, finalDupSongs$id2, finalDupSongs$AvgWeight, decreasing = c(FALSE, FALSE, TRUE)),]
 finalDupSongs <- finalDupSongs[duplicated(finalDupSongs[c("id1", "id2")], fromLast = TRUE),]
 
-# These parameters worked best for me, with very few false positives. But feel free to change, if needed.
 duplicatesFiltered <- subset(finalDupSongs, artist_sim >= 0.9 & title_sim >= 0.833 & duration_sim >= 0.6 & AvgWeight >= 0.82)
 duplicatesFiltered <- duplicatesFiltered %>% select(artist_sim,title_sim,duration_sim,AvgWeight,source,id1,artist_1,title_1,duration_1,id2,artist_2,title_2,duration_2)
 
-# Exporting file with duplicates, formated for column widths and background colors
 wb <- createWorkbook()
 addWorksheet(wb, "Duplicates")
 writeData(wb, "Duplicates", duplicatesFiltered)
-
 setColWidths(wb, "Duplicates", cols = 1:5, widths = "auto")
 setColWidths(wb, "Duplicates", cols = 6:13, widths = 5)
 setColWidths(wb, "Duplicates", cols = c(7,8,11,12), widths = c(30, 40, 30, 40))
@@ -163,6 +160,7 @@ addStyle(wb, "Duplicates", title_style, rows = 2:(nrow(duplicatesFiltered)+1), c
 addStyle(wb, "Duplicates", title_style, rows = 2:(nrow(duplicatesFiltered)+1), cols = 12)
 
 saveWorkbook(wb, paste(export_path,"deezer_playlist_analysis.xlsx"), overwrite = TRUE)
+
 
 # Full extract, if needed
 # test <- finalDupSongs[duplicated(finalDupSongs[c("id1", "id2")], fromLast = TRUE),]
