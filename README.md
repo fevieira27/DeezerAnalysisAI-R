@@ -10,7 +10,7 @@
 An R script that uses AI for data analysis on Deezer playlists, like looking for fuzzy duplicates, creating ranks of genre and artists, and exporting full song lists for backup or migration of platform.
 
 ## Current features:
-- Duplicates search, both for exact matches (artist, title and duration) and for possible duplicates based on high similarity, the later using both the Levenshtein and Jaro & Winkler algorithms
+- Duplicates search, both for exact matches (artist, title and duration) and for possible duplicates based on high similarity, the later using both the **Levenshtein** and **Jaro & Winkler** algorithms
 
 ![Example of results from duplicates search](./img/DeezerDuplicates.jpg)
 
